@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+}
+
+group 'org.mangorage'
+version '0.1.8-build' + getVersion().substring(getVersion().length() - 5, getVersion().length())
+
+String getVersion() {
+    return String.valueOf((int)(((new Date().getTime()/1000) - 1451606400) / 10));
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    compileOnly group: 'commons-cli', name: 'commons-cli', version: '1.3.1'
+    runtimeOnly group: 'commons-cli', name: 'commons-cli', version: '1.3.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'org.mangorage.chat.Main'
+        )
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest.from jar.manifest
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
+}
+
+artifacts {
+    archives fatJar
+}
