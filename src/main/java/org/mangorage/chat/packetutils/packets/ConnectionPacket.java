@@ -1,6 +1,7 @@
-package org.mangorage.chat.packetutils.Packet;
+package org.mangorage.chat.packetutils.packets;
 
-import org.mangorage.chat.events.ConnectEvent;
+import org.mangorage.chat.eventutills.events.ConnectEvent;
+import org.mangorage.chat.sides.AbstractClient;
 import org.mangorage.chat.sides.Side;
 
 import java.io.BufferedReader;
@@ -20,7 +21,7 @@ public class ConnectionPacket extends Packet {
         this.address = address;
     }
 
-    public ConnectionPacket(BufferedReader reader) throws IOException {
+    public ConnectionPacket(AbstractClient client, BufferedReader reader) throws IOException {
         this(reader.readLine(), reader.readLine());
     }
 
@@ -51,9 +52,6 @@ public class ConnectionPacket extends Packet {
             stream.println(ID);
             stream.println(username);
             stream.println(getHostWithPort(socket, side));
-            stream.flush();
-            Side s = side;
-            int a1 = 0;
         }
 
     }

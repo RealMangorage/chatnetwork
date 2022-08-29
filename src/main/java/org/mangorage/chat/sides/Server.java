@@ -1,7 +1,7 @@
 package org.mangorage.chat.sides;
 
 import org.mangorage.chat.Main;
-import org.mangorage.chat.packetutils.Packet.Packet;
+import org.mangorage.chat.packetutils.packets.Packet;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -46,6 +46,7 @@ public class Server {
     };
     private boolean running = false;
     private ServerSocket socket;
+
 
     public Server(int port) {
         try {

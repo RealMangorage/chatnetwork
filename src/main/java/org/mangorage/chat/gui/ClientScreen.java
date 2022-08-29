@@ -2,9 +2,11 @@ package org.mangorage.chat.gui;
 
 import org.jetbrains.annotations.NotNull;
 import org.mangorage.chat.configs.Config;
-import org.mangorage.chat.events.ChatEvent;
-import org.mangorage.chat.packetutils.Packet.ChatPacket;
+import org.mangorage.chat.eventutills.events.ChatEvent;
+import org.mangorage.chat.packetutils.packets.ChatPacket;
 import org.mangorage.chat.sides.Side;
+import org.mangorage.chat.soundsystem.SimpleAudioPlayer;
+import org.mangorage.chat.soundsystem.SoundRegistry;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +19,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.mangorage.chat.Main.*;
+import static org.mangorage.chat.packetutils.PacketRegistry.sendPacket;
 
 public class ClientScreen extends JPanel implements KeyListener, ActionListener {
     private Timer timer;
@@ -110,6 +113,14 @@ public class ClientScreen extends JPanel implements KeyListener, ActionListener 
     }
 
     public void onChatEvent(@NotNull ChatEvent event) {
+        try {
+            SimpleAudioPlayer.playSound(SoundRegistry.PING);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (chat.size() > 43)
+            chat.remove(0);
         chat.add(event.getMessage());
     }
 
@@ -148,7 +159,7 @@ public class ClientScreen extends JPanel implements KeyListener, ActionListener 
                 message = message.substring(0, message.length() - 1);
             }
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                getHandler().sendPacket(new ChatPacket(message, getClient().getUsername()), Side.SERVER, false);
+                sendPacket(new ChatPacket(message, getClient().getUsername()), Side.SERVER, false, null);
                 message = "";
             }
         }

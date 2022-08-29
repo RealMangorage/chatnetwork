@@ -6,14 +6,6 @@ import java.net.Socket;
 
 public class SocketUtills {
     public static String getHostWithPort(Socket socket, Side side) {
-        //if (side == Side.CLIENT)
-            // return socket.getLocalAddress().getHostAddress() + ":" + socket.getLocalPort();
-
-
-        int a = socket.getLocalPort();
-        int b = socket.getPort();
-        int c = 0;
-
         return socket.getInetAddress().getHostAddress() + ":" + socket.getPort();
     }
 

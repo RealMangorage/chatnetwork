@@ -1,4 +1,6 @@
-package org.mangorage.chat.events;
+package org.mangorage.chat.eventutills.events;
+
+import org.mangorage.chat.eventutills.Event;
 
 public class ChatEvent extends Event {
     private final String message;

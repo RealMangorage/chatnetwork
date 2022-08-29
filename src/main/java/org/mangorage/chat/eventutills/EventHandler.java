@@ -1,4 +1,4 @@
-package org.mangorage.chat.events;
+package org.mangorage.chat.eventutills;
 
 import java.util.ArrayList;
 import java.util.HashMap;

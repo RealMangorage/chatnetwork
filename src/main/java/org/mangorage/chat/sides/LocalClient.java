@@ -1,17 +1,13 @@
 package org.mangorage.chat.sides;
 
 import org.mangorage.chat.Main;
-import org.mangorage.chat.packetutils.Packet.ConnectionPacket;
-import org.mangorage.chat.packetutils.Packet.DisconnectPacket;
+import org.mangorage.chat.packetutils.packets.ConnectionPacket;
+import org.mangorage.chat.packetutils.packets.DisconnectPacket;
 import org.mangorage.chat.packetutils.PacketRegistry;
 import org.mangorage.chat.utils.SocketUtills;
-
 import java.io.IOException;
-import java.net.Socket;
-import java.util.function.Supplier;
 
-import static org.mangorage.chat.Main.getHandler;
-import static org.mangorage.chat.utils.SocketUtills.getHostWithPort;
+import static org.mangorage.chat.packetutils.PacketRegistry.sendPacket;
 
 public class LocalClient extends AbstractClient {
 
@@ -24,7 +20,7 @@ public class LocalClient extends AbstractClient {
                 while (line != null) { // Recieving from Server
                     if (line != null) {
                         if (line.equals("packet")) {
-                            PacketRegistry.handle(getSelf().getIn(), Side.CLIENT);
+                            PacketRegistry.handle(getSelf(), getSelf().getIn(), Side.CLIENT);
                         }
                     }
                     line = getIn().readLine();
@@ -49,7 +45,7 @@ public class LocalClient extends AbstractClient {
 
     @Override
     public void disconnect() {
-        getHandler().sendPacket(new DisconnectPacket(SocketUtills.getHostWithPort(getSocket(), Side.CLIENT)), Side.SERVER, false);
+        sendPacket(new DisconnectPacket(SocketUtills.getHostWithPort(getSocket(), Side.CLIENT)), Side.SERVER, false, null);
     }
 
     @Override
@@ -58,7 +54,7 @@ public class LocalClient extends AbstractClient {
         new Thread() {
             public void run() {
                 Main.sleep(100);
-                getHandler().sendPacket(new ConnectionPacket(getUsername(), "address"), Side.SERVER, false);
+                sendPacket(new ConnectionPacket(getUsername(), "address"), Side.SERVER, false, null);
             }
         }.start();
     }

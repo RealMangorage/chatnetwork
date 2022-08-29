@@ -1,4 +1,4 @@
-package org.mangorage.chat.packetutils.Packet;
+package org.mangorage.chat.packetutils.packets;
 
 import org.mangorage.chat.sides.AbstractClient;
 import org.mangorage.chat.sides.Side;
@@ -27,6 +27,10 @@ public abstract class Packet {
     }
 
     public boolean sendBackToClients() {
+        return false;
+    }
+
+    public boolean ignoreOriginal() {
         return false;
     }
 

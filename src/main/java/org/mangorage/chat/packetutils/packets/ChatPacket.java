@@ -1,6 +1,7 @@
-package org.mangorage.chat.packetutils.Packet;
+package org.mangorage.chat.packetutils.packets;
 
-import org.mangorage.chat.events.ChatEvent;
+import org.mangorage.chat.eventutills.events.ChatEvent;
+import org.mangorage.chat.sides.AbstractClient;
 import org.mangorage.chat.sides.Side;
 
 import java.io.BufferedReader;
@@ -20,7 +21,7 @@ public class ChatPacket extends Packet {
         this.user = User;
     }
 
-    public ChatPacket(BufferedReader reader) throws IOException {
+    public ChatPacket(AbstractClient client, BufferedReader reader) throws IOException {
         this(reader.readLine(), reader.readLine());
     }
 

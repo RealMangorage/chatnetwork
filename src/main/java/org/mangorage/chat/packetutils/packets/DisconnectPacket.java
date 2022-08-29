@@ -1,6 +1,7 @@
-package org.mangorage.chat.packetutils.Packet;
+package org.mangorage.chat.packetutils.packets;
 
-import org.mangorage.chat.events.DisconnectEvent;
+import org.mangorage.chat.eventutills.events.DisconnectEvent;
+import org.mangorage.chat.sides.AbstractClient;
 import org.mangorage.chat.sides.Side;
 
 import java.io.BufferedReader;
@@ -19,7 +20,7 @@ public class DisconnectPacket extends Packet {
         this.address = address;
     }
 
-    public DisconnectPacket(BufferedReader reader) throws IOException {
+    public DisconnectPacket(AbstractClient client, BufferedReader reader) throws IOException {
         this(reader.readLine());
     }
 
@@ -44,7 +45,6 @@ public class DisconnectPacket extends Packet {
             stream.println("packet");
             stream.println(ID);
             stream.println(getHostWithPort(socket, side));
-            stream.flush();
         }
 
     }

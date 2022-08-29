@@ -1,24 +1,25 @@
     package org.mangorage.chat;
     import org.apache.commons.cli.*;
-    import org.mangorage.chat.events.EventHandler;
+    import org.mangorage.chat.eventutills.EventHandler;
     import org.mangorage.chat.gui.ClientScreen;
     import org.mangorage.chat.gui.ServerScreen;
     import org.mangorage.chat.sides.*;
-    import org.mangorage.chat.packetutils.CommunicationHandler;
 
+    import javax.annotation.Resources;
     import javax.swing.*;
+    import java.io.File;
     import java.io.IOException;
+    import java.net.URISyntaxException;
+    import java.net.URL;
+    import java.nio.file.Paths;
 
     public class Main {
-        public static final CommunicationHandler handler = new CommunicationHandler();
         private static final EventHandler eventHandler = new EventHandler();
         private static int port = 25565;
+        private static String host;
         private static Server server;
         private static AbstractClient client;
 
-        public static CommunicationHandler getHandler() {
-            return handler;
-        }
         public static EventHandler getEventHandler() {return eventHandler; }
 
         public static Server getServer() {return server; }
@@ -26,6 +27,16 @@
             return client;
         }
         public static int getPort() {return port; }
+        public static String getHost() {
+            return host;
+        }
+
+
+        public static URL getSound(String file) {
+            URL resource = Main.class.getResource(file);
+            return resource;
+        }
+
 
         public static void setPort(int Port) {
             port = Port;
@@ -34,12 +45,18 @@
         public static void StartServer(int Port) {
             port = Port;
             server = new Server(Port);
+
+
         }
 
         public static void StartClient(String Host, int Port, String Username) {
             port = Port;
+            host = Host;
             client = new LocalClient(Host, Port, Username);
             client.init();
+
+
+
         }
 
 
@@ -106,5 +123,7 @@
             } else {
                 initWindow(Side.CLIENT);
             }
+
+
         }
     }
